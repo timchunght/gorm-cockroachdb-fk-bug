@@ -4,6 +4,7 @@ DB Schema in `init.sql`
 
 ```
 gvm use go1.16
+export PG_DSN="user=<dbuser> dbname=<dbname> port=26257 host=127.0.0.1 sslmode=disable password=" # update the user and dbuser and dbname
 go run main.go
 ```
 
