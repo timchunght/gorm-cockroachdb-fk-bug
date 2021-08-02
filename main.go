@@ -22,13 +22,26 @@ func main() {
 		panic(err)
 	}
 	t := time.Now()
+
 	transaction := models.Transaction{
 		ID:              uuid.New().String(),
 		ParentAccountID: "invalid-acct-id",
 		CreatedAt:       t.Unix(),
 	}
 
+	// This transaction will SUCCEED despite the FK is invalid
 	dbResult := db.Create(&transaction)
+	if dbResult.Error != nil {
+		log.Println("DBError: ", dbResult.Error)
+	}
+
+	transactionWithoutPaymentChannel := models.TransactionWithoutPaymentChannel{
+		ID:              uuid.New().String(),
+		ParentAccountID: "invalid-acct-id",
+		CreatedAt:       t.Unix(),
+	}
+	// This transaction will error out as expected since the FK is invalid
+	dbResult = db.Table("transactions").Create(&transactionWithoutPaymentChannel)
 	if dbResult.Error != nil {
 		log.Println("DBError: ", dbResult.Error)
 	}
