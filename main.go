@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// This transaction will SUCCEED despite the FK is invalid
-	dbResult := db.Create(&transaction)
+	dbResult := db.Table("transactions").Create(&transaction)
 	if dbResult.Error != nil {
 		log.Println("DBError: ", dbResult.Error)
 	}
